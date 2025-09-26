@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">ZENNY</string>
+    <string name="track_your_daily_goals_and_feel_n_accomplished">Track your daily goals and feel \n accomplished</string>
+    <string name="next">Next</string>
+    <string name="build_healthy_habits">Build Healthy Habits</string>
+    <string name="skip">Skip</string>
+    <string name="track_your_mood">Track Your Mood</string>
+    <string name="understand_your_feelings_with_nemoji_journaling">Understand your feelings with\nemoji journaling.</string>
+    <string name="understand_your_feelings_with_n_emoji_journaling">Understand your feelings with \n emoji journaling.</string>
+    <string name="see_your_progress">See Your Progress</string>
+    <string name="clebrate_your_small_wins_every_n_day">Clebrate your small wins every \n day.</string>
+    <string name="get_started">Get Started</string>
+    <string name="have_a_nice_day">Have a Nice Day !</string>
+    <string name="have_a_nice_day_">Have a Nice Day !</string>
+    <string name="mood_icon">Mood Icon</string>
+    <string name="notification_icon">notification Icon</string>
+    <string name="ncompletes_n_3_4">✅\nCompletes \n 3/4</string>
+    <string name="n_points_n_85">⭐\n Points\n 85</string>
+    <string name="nstreak_n12_days">🔥\nStreak \n12 Days</string>
+    <string name="home">Home</string>
+    <string name="analytics">Analytics</string>
+    <string name="setting">Setting</string>
+    <string name="today_s_progress">Today\'s Progress 🎯</string>
+    <string name="n12_nday_streak">🔥\n12\nDay Streak</string>
+    <string name="n1_4_ncompleted">✅\n1/4\nCompleted</string>
+    <string name="n85_npoints">⭐\n85\nPoints</string>
+</resources>
