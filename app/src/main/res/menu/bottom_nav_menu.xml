@@ -7,13 +7,13 @@
         android:title="@string/home" />
 
     <item
-        android:id="@+id/nav_analytics"
-        android:icon="@drawable/analytics"
-        android:title="@string/analytics" />
+        android:id="@+id/nav_mood"
+        android:icon="@drawable/nav_mood"
+        android:title="@string/mood" />
 
     <item
-        android:id="@+id/nav_setting"
-        android:icon="@drawable/setting"
-        android:title="@string/setting" />
+        android:id="@+id/nav_water"
+        android:icon="@drawable/nav_water"
+        android:title="@string/hydration" />
 
 </menu>

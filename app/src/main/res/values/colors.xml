@@ -6,12 +6,6 @@
     <item name="colorOnPrimary">#FFFFFF</item>
     <item name="colorSecondary">#E1D2FF</item>
     <item name="colorOnSecondary">#000000</item>
-    <color name="progress_card_bg">#7B4BB1</color>
-    <color name="box_blue">#E6F2FF</color>
-    <color name="box_purple">#F6EDFF</color>
-    <color name="box_green">#E9FAF0</color>
-    <color name="box_yellow">#FFF9E6</color>
-    <color name="purple_700">#6B3FA9</color>
 
 </style>
 </resources>
