@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <!-- This creates a purple ring (stroke) around the date -->
+    <stroke
+        android:width="2dp"
+        android:color="#9C27B0" />
+
+    <!-- We don't want a solid fill, just the outline -->
+    <solid android:color="@android:color/transparent" />
+
+</shape>

@@ -12,13 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ZENNY">
         <activity
-            android:name=".dialog_add_habit"
+            android:name=".activity_bottom_sheet_add"
             android:exported="false" />
         <activity
-            android:name=".list_item_habit"
-            android:exported="false" />
-        <activity
-            android:name=".activity_home"
+            android:name=".activity_mood"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".dialog_add_habit"
+            android:exported="false" />
+        <activity
+            android:name=".list_item_habit"
+            android:exported="false" />
+        <activity
+            android:name=".activity_home"
+            android:exported="false" />
         <activity
             android:name=".activity_onboard3"
             android:exported="false" />
