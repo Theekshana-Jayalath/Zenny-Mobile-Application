@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/</item>
+        <item>@font/aclonica</item>
         <item>@font/adlam_display</item>
         <item>@font/almendra_bold</item>
         <item>@font/almendra_display</item>
+        <item>@font/battambang_thin</item>
+        <item>@font/carter_one</item>
     </array>
 </resources>

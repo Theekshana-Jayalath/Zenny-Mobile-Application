@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HydrationFragment">
+
+    <!-- Top title row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="134dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="222dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="45dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/carter_one"
+            android:text="Let's Drink Some Water"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <!-- Waterdrop Icon -->
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="111dp"
+        android:layout_height="113dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/waterdrop" />
+
+    <!-- Progress + Card Center -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="290dp"
+        android:layout_marginTop="170dp"
+        android:gravity="center">
+
+        <!-- Half Circle Progress outside card -->
+        <com.example.zenny.HalfCircleProgress
+            android:id="@+id/half_progress"
+            android:layout_width="260dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="65dp"/>
+
+        <!-- Start Icon -->
+        <ImageView
+            android:id="@+id/startIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_drydrop" />
+
+        <!-- End Icon -->
+        <ImageView
+            android:id="@+id/endIcon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_drop"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="70dp"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Circle Card in middle -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:cardCornerRadius="100dp"
+            app:cardElevation="12dp"
+            android:layout_gravity="center">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <!-- Center Text -->
+                <TextView
+                    android:id="@+id/progress_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0/0ml"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center|top"
+                    android:layout_marginTop="60dp"/>
+
+                <!-- Center Button with Icon -->
+                <ImageButton
+                    android:id="@+id/centerButton"
+                    android:layout_width="47dp"
+                    android:layout_height="47dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Center Action"
+                    android:src="@drawable/glass"/>
+
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <ImageButton
+            android:id="@+id/plusButton"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_gravity="center|bottom|end"
+            android:layout_marginBottom="35dp"
+            android:layout_marginEnd="25dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Add"
+            android:src="@drawable/glass"/>
+    </FrameLayout>
+
+    <!-- Bottom Section inside CardView -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="470dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <Spinner
+                android:id="@+id/reminder_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Countdown Progress -->
+            <RelativeLayout
+                android:layout_width="300dp"
+                android:layout_height="180dp"
+                android:layout_marginStart="30dp">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/countDownloadProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:max="100"
+                    android:progress="0"
+                    app:indicatorColor="#610853"
+                    app:indicatorDirectionCircular="clockwise"
+                    app:indicatorInset="0dp"
+                    app:indicatorSize="120dp"
+                    app:trackColor="#F0DBF6"
+                    app:trackThickness="8dp" />
+
+                <TextView
+                    android:id="@+id/countdown_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Count Down"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

@@ -1,25 +1,15 @@
 package com.example.zenny
 
 import android.app.TimePickerDialog
-import android.content.Intent // Make sure this is imported
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-//import androidx.compose.ui.semantics.setText
-//import androidx.compose.ui.semantics.text
-import com.google.android.material.bottomnavigation.BottomNavigationView // Make sure this is imported
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
 class activity_home : AppCompatActivity() {
 
@@ -27,171 +17,159 @@ class activity_home : AppCompatActivity() {
     private lateinit var addHabitButton: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var progressPercentageText: TextView
-    private lateinit var bottomNav: BottomNavigationView // NEW: Add variable for bottom navigation
+    private lateinit var bottomNav: BottomNavigationView
+    private lateinit var homeContent: View
+    private lateinit var fragmentContainer: FrameLayout
+    private lateinit var layoutTop: View // Added this line
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // --- Initialization of your existing views ---
         habitsContainer = findViewById(R.id.habitsContainer)
         addHabitButton = findViewById(R.id.btn_add_box)
         progressBar = findViewById(R.id.progress_bar)
         progressPercentageText = findViewById(R.id.tv_progress_percentage)
+        bottomNav = findViewById(R.id.bottom_navigation)
+        homeContent = findViewById(R.id.home_content)
+        fragmentContainer = findViewById(R.id.fragment_container)
+        layoutTop = findViewById(R.id.layoutTop) // Added this line
 
-        // Set the click listener for the add habit button
-        addHabitButton.setOnClickListener {
-            showAddHabitDialog()
-        }
-
-        // Initial update for the progress bar
+        addHabitButton.setOnClickListener { showAddHabitDialog() }
         updateProgress()
+
+        // Bottom navigation listener
+        bottomNav.setOnItemSelectedListener { item ->
+            var selectedFragment: Fragment? = null
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    showMainContent(true)
+                    return@setOnItemSelectedListener true
+                }
+                R.id.nav_mood -> {
+                    selectedFragment = activity_mood.newInstance()
+                }
+                R.id.nav_water -> {
+                    selectedFragment = HydrationFragment.newInstance()
+                }
+            }
+
+            if (selectedFragment != null) {
+                showMainContent(false)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, selectedFragment)
+                    .commit()
+            }
+            true
+        }
     }
 
-    /**
-     * Calculates and updates the progress bar and percentage text.
-     */
+    private fun showMainContent(show: Boolean) {
+        val visibility = if (show) View.VISIBLE else View.GONE
+        homeContent.visibility = visibility
+        layoutTop.visibility = visibility // Added this line
+
+        if (show) {
+            fragmentContainer.visibility = View.GONE
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+            if (currentFragment != null) {
+                supportFragmentManager.beginTransaction().remove(currentFragment).commit()
+            }
+        } else {
+            fragmentContainer.visibility = View.VISIBLE
+        }
+    }
+
     private fun updateProgress() {
-        val totalHabits = habitsContainer.childCount
-        if (totalHabits == 0) {
+        val total = habitsContainer.childCount
+        if (total == 0) {
             progressBar.progress = 0
             progressPercentageText.text = "0%"
             return
         }
-
-        var completedHabits = 0
-        for (i in 0 until totalHabits) {
-            val habitView = habitsContainer.getChildAt(i)
-            val checkBox = habitView.findViewById<CheckBox>(R.id.habitCheckBox)
-            if (checkBox.isChecked) {
-                completedHabits++
-            }
+        var completed = 0
+        for (i in 0 until total) {
+            val checkBox = habitsContainer.getChildAt(i).findViewById<CheckBox>(R.id.habitCheckBox)
+            if (checkBox.isChecked) completed++
         }
-
-        val progress = (completedHabits * 100) / totalHabits
+        val progress = (completed * 100) / total
         progressBar.progress = progress
         progressPercentageText.text = "$progress%"
     }
 
-    /**
-     * Shows a dialog to ADD a new habit.
-     */
     private fun showAddHabitDialog() {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.activity_dialog_add_habit, null)
+        val dialogView = layoutInflater.inflate(R.layout.activity_dialog_add_habit, null)
         val etHabitName = dialogView.findViewById<EditText>(R.id.etHabitName)
         val btnChooseTime = dialogView.findViewById<Button>(R.id.btnChooseTime)
-
-        var selectedTimeFormatted = ""
+        var selectedTime = ""
 
         btnChooseTime.setOnClickListener {
             val calendar = Calendar.getInstance()
-            val hour = calendar.get(Calendar.HOUR_OF_DAY)
-            val minute = calendar.get(Calendar.MINUTE)
-
-            val timePickerDialog = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
-                val selectedCalendar = Calendar.getInstance().apply {
-                    set(Calendar.HOUR_OF_DAY, selectedHour)
-                    set(Calendar.MINUTE, selectedMinute)
-                }
-                val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
-                selectedTimeFormatted = timeFormat.format(selectedCalendar.time)
-                btnChooseTime.text = selectedTimeFormatted
-            }, hour, minute, false)
-            timePickerDialog.show()
+            TimePickerDialog(this, { _, h, m ->
+                val c = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, h); set(Calendar.MINUTE, m) }
+                selectedTime = SimpleDateFormat("h:mm a", Locale.getDefault()).format(c.time)
+                btnChooseTime.text = selectedTime
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show()
         }
 
         AlertDialog.Builder(this)
             .setView(dialogView)
             .setTitle("Add Habit")
             .setPositiveButton("Add") { _, _ ->
-                val habitName = etHabitName.text.toString().trim()
-                if (habitName.isNotEmpty()) {
-                    val habitTime = if (selectedTimeFormatted.isNotEmpty()) selectedTimeFormatted else "No time set"
-                    addHabitView(habitName, habitTime)
-                } else {
-                    Toast.makeText(this, "Please enter a habit name", Toast.LENGTH_SHORT).show()
-                }
+                val name = etHabitName.text.toString().trim()
+                if (name.isNotEmpty()) addHabitView(name, if (selectedTime.isNotEmpty()) selectedTime else "No time set")
+                else Toast.makeText(this, "Enter a habit name", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Cancel", null)
             .show()
     }
 
-    /**
-     * Shows a dialog to EDIT an existing habit.
-     */
-    private fun showEditHabitDialog(habitNameTextView: TextView, habitTimeTextView: TextView) {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.activity_dialog_add_habit, null)
-        val etHabitName = dialogView.findViewById<EditText>(R.id.etHabitName)
-        val btnChooseTime = dialogView.findViewById<Button>(R.id.btnChooseTime)
+    private fun addHabitView(name: String, time: String) {
+        val habitView = layoutInflater.inflate(R.layout.activity_list_item_habit, habitsContainer, false)
+        val tvName = habitView.findViewById<TextView>(R.id.habitNameTextView)
+        val tvTime = habitView.findViewById<TextView>(R.id.habitTimeTextView)
+        val delete = habitView.findViewById<ImageView>(R.id.deleteHabitIcon)
+        val edit = habitView.findViewById<ImageView>(R.id.editHabitIcon)
+        val checkBox = habitView.findViewById<CheckBox>(R.id.habitCheckBox)
 
-        etHabitName.setText(habitNameTextView.text)
-        val initialTime = habitTimeTextView.text.toString()
-        var selectedTimeFormatted = if (initialTime != "No time set") initialTime else ""
-        btnChooseTime.text = if (selectedTimeFormatted.isNotEmpty()) selectedTimeFormatted else "Choose Time"
+        tvName.text = name
+        tvTime.text = time
 
-        btnChooseTime.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val hour = calendar.get(Calendar.HOUR_OF_DAY)
-            val minute = calendar.get(Calendar.MINUTE)
+        checkBox.setOnCheckedChangeListener { _, _ -> updateProgress() }
+        delete.setOnClickListener { habitsContainer.removeView(habitView); updateProgress() }
+        edit.setOnClickListener { showEditHabitDialog(tvName, tvTime) }
 
-            val timePickerDialog = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
-                val selectedCalendar = Calendar.getInstance().apply {
-                    set(Calendar.HOUR_OF_DAY, selectedHour)
-                    set(Calendar.MINUTE, selectedMinute)
-                }
-                val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
-                selectedTimeFormatted = timeFormat.format(selectedCalendar.time)
-                btnChooseTime.text = selectedTimeFormatted
-            }, hour, minute, false)
-            timePickerDialog.show()
+        habitsContainer.addView(habitView)
+        updateProgress()
+    }
+
+    private fun showEditHabitDialog(tvName: TextView, tvTime: TextView) {
+        val dialogView = layoutInflater.inflate(R.layout.activity_dialog_add_habit, null)
+        val etName = dialogView.findViewById<EditText>(R.id.etHabitName)
+        val btnTime = dialogView.findViewById<Button>(R.id.btnChooseTime)
+
+        etName.setText(tvName.text)
+        var selectedTime = tvTime.text.toString()
+        btnTime.text = if (selectedTime != "No time set") selectedTime else "Choose Time"
+
+        btnTime.setOnClickListener {
+            val c = Calendar.getInstance()
+            TimePickerDialog(this, { _, h, m ->
+                val cal = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, h); set(Calendar.MINUTE, m) }
+                selectedTime = SimpleDateFormat("h:mm a", Locale.getDefault()).format(cal.time)
+                btnTime.text = selectedTime
+            }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false).show()
         }
 
         AlertDialog.Builder(this)
             .setView(dialogView)
             .setTitle("Edit Habit")
             .setPositiveButton("Save") { _, _ ->
-                val updatedHabitName = etHabitName.text.toString().trim()
-                if (updatedHabitName.isNotEmpty()) {
-                    habitNameTextView.text = updatedHabitName
-                    habitTimeTextView.text = if (selectedTimeFormatted.isNotEmpty()) selectedTimeFormatted else "No time set"
-                    Toast.makeText(this, "Habit updated", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Habit name cannot be empty", Toast.LENGTH_SHORT).show()
-                }
+                tvName.text = etName.text.toString().trim()
+                tvTime.text = if (selectedTime.isNotEmpty()) selectedTime else "No time set"
+                updateProgress()
             }
             .setNegativeButton("Cancel", null)
             .show()
-    }
-
-    /**
-     * Inflates the habit item layout and adds it to the container.
-     */
-    private fun addHabitView(habitName: String, habitTime: String) {
-        val habitView = LayoutInflater.from(this).inflate(R.layout.activity_list_item_habit, habitsContainer, false)
-        val habitNameTextView = habitView.findViewById<TextView>(R.id.habitNameTextView)
-        val habitTimeTextView = habitView.findViewById<TextView>(R.id.habitTimeTextView)
-        val deleteIcon = habitView.findViewById<ImageView>(R.id.deleteHabitIcon)
-        val editIcon = habitView.findViewById<ImageView>(R.id.editHabitIcon)
-        val checkBox = habitView.findViewById<CheckBox>(R.id.habitCheckBox)
-
-        habitNameTextView.text = habitName
-        habitTimeTextView.text = habitTime
-
-        checkBox.setOnCheckedChangeListener { _, _ ->
-            updateProgress()
-        }
-
-        deleteIcon.setOnClickListener {
-            habitsContainer.removeView(habitView)
-            Toast.makeText(this, "Habit deleted", Toast.LENGTH_SHORT).show()
-            updateProgress()
-        }
-
-        editIcon.setOnClickListener {
-            showEditHabitDialog(habitNameTextView, habitTimeTextView)
-        }
-
-        habitsContainer.addView(habitView)
-        updateProgress()
     }
 }
