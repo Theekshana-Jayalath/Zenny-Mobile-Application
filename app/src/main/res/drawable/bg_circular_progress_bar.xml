@@ -9,7 +9,7 @@
             <solid android:color="#FFFFFF" />
         </shape>
     </item>
-    <!-- Blue progress ring -->
+
     <item>
         <rotate
             android:fromDegrees="270"

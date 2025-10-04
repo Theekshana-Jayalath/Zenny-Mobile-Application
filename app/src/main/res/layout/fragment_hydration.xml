@@ -17,11 +17,11 @@
             android:layout_width="222dp"
             android:layout_height="39dp"
             android:layout_marginStart="130dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="50dp"
             android:layout_weight="1"
             android:fontFamily="@font/carter_one"
             android:text="Let's Drink Some Water"
-            android:textSize="20sp" />
+            android:textSize="24sp" />
     </LinearLayout>
 
     <!-- Waterdrop Icon -->
@@ -78,7 +78,8 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="217dp"
+                android:background="@drawable/border"
                 android:gravity="center">
 
                 <!-- Center Text -->
@@ -86,36 +87,72 @@
                     android:id="@+id/progress_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:layout_marginTop="60dp"
                     android:text="0/0ml"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_gravity="center|top"
-                    android:layout_marginTop="60dp"/>
+                    android:textStyle="bold" />
 
-                <!-- Center Button with Icon -->
-                <ImageButton
-                    android:id="@+id/centerButton"
-                    android:layout_width="47dp"
-                    android:layout_height="47dp"
+                <!-- Container for Center Button and Glass Size Text -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
                     android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="Center Action"
-                    android:src="@drawable/glass"/>
+                    android:layout_marginTop="30dp">
+
+                    <!-- Center Button with Icon -->
+                    <ImageButton
+                        android:id="@+id/centerButton"
+                        android:layout_width="47dp"
+                        android:layout_height="47dp"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="Center Action"
+                        android:src="@drawable/glass" />
+
+                    <!-- Glass Size Text -->
+                    <TextView
+                        android:id="@+id/glass_size_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="200ml"
+                        tools:text="200ml"
+                        android:textSize="12sp"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
 
             </FrameLayout>
         </androidx.cardview.widget.CardView>
 
-        <ImageButton
-            android:id="@+id/plusButton"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
-            android:layout_gravity="center|bottom|end"
-            android:layout_marginBottom="35dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_gravity="bottom|end"
             android:layout_marginEnd="25dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="Add"
-            android:src="@drawable/glass"/>
+            android:layout_marginBottom="20dp">
+
+            <ImageButton
+                android:id="@+id/plusButton"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Select your glass size"
+                android:src="@drawable/glass"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Select yourglass size"
+                android:textSize="10sp"
+                android:textColor="?android:attr/textColorSecondary"/>
+
+        </LinearLayout>
+
     </FrameLayout>
 
     <!-- Bottom Section inside CardView -->
@@ -130,15 +167,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="215dp"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="7dp">
 
             <Spinner
                 android:id="@+id/reminder_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp" />
+                android:layout_height="wrap_content" />
 
             <!-- Countdown Progress -->
             <RelativeLayout
@@ -153,11 +189,11 @@
                     android:layout_centerInParent="true"
                     android:max="100"
                     android:progress="0"
-                    app:indicatorColor="#610853"
+                    app:indicatorColor="#3C0530"
                     app:indicatorDirectionCircular="clockwise"
                     app:indicatorInset="0dp"
                     app:indicatorSize="120dp"
-                    app:trackColor="#F0DBF6"
+                    app:trackColor="#C998D9"
                     app:trackThickness="8dp" />
 
                 <TextView
@@ -171,5 +207,14 @@
             </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <ImageButton
+        android:id="@+id/refresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="Refresh"
+        android:src="@drawable/ic_refresh" />
 
 </FrameLayout>

@@ -48,6 +48,8 @@ dependencies {
     implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
     implementation("com.jakewharton.threetenabp:threetenabp:1.4.7")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
+    implementation("com.google.code.gson:gson:2.9.0")
 
 
 }

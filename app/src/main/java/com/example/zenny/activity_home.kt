@@ -1,6 +1,8 @@
 package com.example.zenny
 
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -8,6 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,11 +24,20 @@ class activity_home : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var homeContent: View
     private lateinit var fragmentContainer: FrameLayout
-    private lateinit var layoutTop: View // Added this line
+    private lateinit var layoutTop: View
+
+    private val PREFS_NAME = "ZennyPrefs"
+    private val HABITS_KEY = "habits"
+    private val LAST_OPENED_DATE_KEY = "lastOpenedDate"
+    private lateinit var sharedPreferences: SharedPreferences
+    private val gson = Gson()
+    private var habits = mutableListOf<Habit>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
         habitsContainer = findViewById(R.id.habitsContainer)
         addHabitButton = findViewById(R.id.btn_add_box)
@@ -33,9 +46,12 @@ class activity_home : AppCompatActivity() {
         bottomNav = findViewById(R.id.bottom_navigation)
         homeContent = findViewById(R.id.home_content)
         fragmentContainer = findViewById(R.id.fragment_container)
-        layoutTop = findViewById(R.id.layoutTop) // Added this line
+        layoutTop = findViewById(R.id.layoutTop)
 
         addHabitButton.setOnClickListener { showAddHabitDialog() }
+
+        checkDateAndResetProgress()
+        loadHabits()
         updateProgress()
 
         // Bottom navigation listener
@@ -64,10 +80,43 @@ class activity_home : AppCompatActivity() {
         }
     }
 
+    private fun checkDateAndResetProgress() {
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val lastOpenedDate = sharedPreferences.getString(LAST_OPENED_DATE_KEY, null)
+
+        if (today != lastOpenedDate) {
+            val editor = sharedPreferences.edit()
+            editor.putString(LAST_OPENED_DATE_KEY, today)
+            // Reset completion status for all habits
+            val json = sharedPreferences.getString(HABITS_KEY, null)
+            if (json != null) {
+                val type = object : TypeToken<MutableList<Habit>>() {}.type
+                val savedHabits: MutableList<Habit> = gson.fromJson(json, type)
+                savedHabits.forEach { it.isCompleted = false }
+                editor.putString(HABITS_KEY, gson.toJson(savedHabits))
+            }
+            editor.apply()
+        }
+    }
+
+    private fun saveHabits() {
+        val json = gson.toJson(habits)
+        sharedPreferences.edit().putString(HABITS_KEY, json).apply()
+    }
+
+    private fun loadHabits() {
+        val json = sharedPreferences.getString(HABITS_KEY, null)
+        if (json != null) {
+            val type = object : TypeToken<MutableList<Habit>>() {}.type
+            habits = gson.fromJson(json, type)
+            habits.forEach { addHabitView(it) }
+        }
+    }
+
     private fun showMainContent(show: Boolean) {
         val visibility = if (show) View.VISIBLE else View.GONE
         homeContent.visibility = visibility
-        layoutTop.visibility = visibility // Added this line
+        layoutTop.visibility = visibility
 
         if (show) {
             fragmentContainer.visibility = View.GONE
@@ -81,17 +130,13 @@ class activity_home : AppCompatActivity() {
     }
 
     private fun updateProgress() {
-        val total = habitsContainer.childCount
+        val total = habits.size
         if (total == 0) {
             progressBar.progress = 0
             progressPercentageText.text = "0%"
             return
         }
-        var completed = 0
-        for (i in 0 until total) {
-            val checkBox = habitsContainer.getChildAt(i).findViewById<CheckBox>(R.id.habitCheckBox)
-            if (checkBox.isChecked) completed++
-        }
+        val completed = habits.count { it.isCompleted }
         val progress = (completed * 100) / total
         progressBar.progress = progress
         progressPercentageText.text = "$progress%"
@@ -117,14 +162,20 @@ class activity_home : AppCompatActivity() {
             .setTitle("Add Habit")
             .setPositiveButton("Add") { _, _ ->
                 val name = etHabitName.text.toString().trim()
-                if (name.isNotEmpty()) addHabitView(name, if (selectedTime.isNotEmpty()) selectedTime else "No time set")
-                else Toast.makeText(this, "Enter a habit name", Toast.LENGTH_SHORT).show()
+                if (name.isNotEmpty()) {
+                    val habit = Habit(name, if (selectedTime.isNotEmpty()) selectedTime else "No time set")
+                    habits.add(habit)
+                    addHabitView(habit)
+                    saveHabits()
+                } else {
+                    Toast.makeText(this, "Enter a habit name", Toast.LENGTH_SHORT).show()
+                }
             }
             .setNegativeButton("Cancel", null)
             .show()
     }
 
-    private fun addHabitView(name: String, time: String) {
+    private fun addHabitView(habit: Habit) {
         val habitView = layoutInflater.inflate(R.layout.activity_list_item_habit, habitsContainer, false)
         val tvName = habitView.findViewById<TextView>(R.id.habitNameTextView)
         val tvTime = habitView.findViewById<TextView>(R.id.habitTimeTextView)
@@ -132,24 +183,34 @@ class activity_home : AppCompatActivity() {
         val edit = habitView.findViewById<ImageView>(R.id.editHabitIcon)
         val checkBox = habitView.findViewById<CheckBox>(R.id.habitCheckBox)
 
-        tvName.text = name
-        tvTime.text = time
+        tvName.text = habit.name
+        tvTime.text = habit.time
+        checkBox.isChecked = habit.isCompleted
 
-        checkBox.setOnCheckedChangeListener { _, _ -> updateProgress() }
-        delete.setOnClickListener { habitsContainer.removeView(habitView); updateProgress() }
-        edit.setOnClickListener { showEditHabitDialog(tvName, tvTime) }
+        checkBox.setOnCheckedChangeListener { _, isChecked ->
+            habit.isCompleted = isChecked
+            updateProgress()
+            saveHabits()
+        }
+        delete.setOnClickListener {
+            habits.remove(habit)
+            habitsContainer.removeView(habitView)
+            updateProgress()
+            saveHabits()
+        }
+        edit.setOnClickListener { showEditHabitDialog(habit, tvName, tvTime) }
 
         habitsContainer.addView(habitView)
         updateProgress()
     }
 
-    private fun showEditHabitDialog(tvName: TextView, tvTime: TextView) {
+    private fun showEditHabitDialog(habit: Habit, tvName: TextView, tvTime: TextView) {
         val dialogView = layoutInflater.inflate(R.layout.activity_dialog_add_habit, null)
         val etName = dialogView.findViewById<EditText>(R.id.etHabitName)
         val btnTime = dialogView.findViewById<Button>(R.id.btnChooseTime)
 
-        etName.setText(tvName.text)
-        var selectedTime = tvTime.text.toString()
+        etName.setText(habit.name)
+        var selectedTime = habit.time
         btnTime.text = if (selectedTime != "No time set") selectedTime else "Choose Time"
 
         btnTime.setOnClickListener {
@@ -165,9 +226,12 @@ class activity_home : AppCompatActivity() {
             .setView(dialogView)
             .setTitle("Edit Habit")
             .setPositiveButton("Save") { _, _ ->
-                tvName.text = etName.text.toString().trim()
-                tvTime.text = if (selectedTime.isNotEmpty()) selectedTime else "No time set"
+                habit.name = etName.text.toString().trim()
+                habit.time = if (selectedTime.isNotEmpty()) selectedTime else "No time set"
+                tvName.text = habit.name
+                tvTime.text = habit.time
                 updateProgress()
+                saveHabits()
             }
             .setNegativeButton("Cancel", null)
             .show()

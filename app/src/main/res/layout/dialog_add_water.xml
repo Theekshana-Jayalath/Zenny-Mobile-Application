@@ -5,12 +5,31 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter your preferred glass size (ml):"
+        android:layout_marginBottom="4dp"/>
+
     <EditText
         android:id="@+id/waterAmountEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter amount in ml"
-        android:inputType="number" />
+        android:hint="e.g., 250"
+        android:inputType="number"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How many hours is your day?"
+        android:layout_marginBottom="4dp"/>
+
+    <Spinner
+        android:id="@+id/hoursSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,46 +37,22 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/add100mlButton"
+            android:id="@+id/cancelButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="+100 ml"
-            android:backgroundTint="#E2DCEF"
-            android:textColor="#390843"/>
-
-        <Button
-            android:id="@+id/add200mlButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="+200 ml"
-            android:backgroundTint="#E2DCEF"
-            android:textColor="#390843"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Cancel"
-        android:textColor="#430550"
-        android:backgroundTint="#BA93B7"/>
+            android:text="Cancel"
+            android:textColor="#430550"
+            android:backgroundTint="#BA93B7"
+            android:layout_marginEnd="8dp"/>
 
         <Button
             android:id="@+id/addButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add"
+            android:text="Set Goal"
             android:backgroundTint="#651D6F"/>
-
 
     </LinearLayout>
 </LinearLayout>
