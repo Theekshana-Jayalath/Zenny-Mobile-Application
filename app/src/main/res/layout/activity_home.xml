@@ -58,7 +58,7 @@
                 android:id="@+id/tv_displayed_name_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User"
+                android:text="@string/user"
                 android:textSize="12sp"
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
@@ -113,7 +113,7 @@
                         android:id="@+id/tv_progress_percentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0%"
+                        android:text="@string/_0"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -150,7 +150,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Daily Habits"
+                android:text="@string/daily_habits"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -158,7 +158,7 @@
                 android:id="@+id/btn_add_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="➕"
+                android:text="@string/plus"
                 android:textSize="14sp"
                 android:textColor="#000000"
                 app:backgroundTint="#D6C5F0"
@@ -175,7 +175,8 @@
             <LinearLayout
                 android:id="@+id/habitsContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
+                android:background="@drawable/refresh"
                 android:orientation="vertical" />
 
 

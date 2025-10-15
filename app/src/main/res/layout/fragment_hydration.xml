@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HydrationFragment">
+    tools:context=".HydrationFragment"
+    android:background="@drawable/bg_w">
 
     <!-- Top title row -->
     <LinearLayout
@@ -89,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|top"
                     android:layout_marginTop="60dp"
-                    android:text="0/0ml"
+                    android:text="@string/_0_0ml"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -108,7 +109,7 @@
                         android:layout_width="47dp"
                         android:layout_height="47dp"
                         android:background="@android:color/transparent"
-                        android:contentDescription="Center Action"
+                        android:contentDescription="@string/center_action"
                         android:src="@drawable/glass" />
 
                     <!-- Glass Size Text -->
@@ -116,7 +117,7 @@
                         android:id="@+id/glass_size_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="200ml"
+                        android:text="@string/_200ml"
                         tools:text="200ml"
                         android:textSize="12sp"
                         android:textColor="?android:attr/textColorSecondary"
@@ -140,16 +141,17 @@
                 android:layout_width="47dp"
                 android:layout_height="47dp"
                 android:background="@android:color/transparent"
-                android:contentDescription="Select your glass size"
+                android:contentDescription="@string/select_your_glass_size"
                 android:src="@drawable/glass"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Select yourglass size"
-                android:textSize="10sp"
-                android:textColor="?android:attr/textColorSecondary"/>
+                android:text="@string/select_yourglass_size"
+                android:textSize="@dimen/_10sp"
+                android:textColor="?android:attr/textColorSecondary"
+                tools:ignore="SmallSp" />
 
         </LinearLayout>
 
@@ -201,7 +203,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="Count Down"
+                    android:text="@string/count_down"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -214,7 +216,7 @@
         android:layout_height="26dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="Refresh"
+        android:contentDescription="@string/refresh"
         android:src="@drawable/ic_refresh" />
 
 </FrameLayout>

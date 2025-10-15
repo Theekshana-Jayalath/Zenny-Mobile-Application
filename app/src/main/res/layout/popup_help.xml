@@ -34,8 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="• Add Habit: Tap the '+' button at the bottom to create a new habit.
-• Edit/Delete Habit: Long-press on any habit in the list to open the options menu where you can edit or delete it." />
+            android:text="@string/add_habit_tap_the_button_at_the_bottom_to_create_a_new_habit_edit_delete_habit_long_press_on_any_habit_in_the_list_to_open_the_options_menu_where_you_can_edit_or_delete_it" />
 
         <!-- Mood Page Section -->
         <TextView
@@ -43,15 +42,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Mood Page: Analysis"
+            android:text="@string/mood_page_analysis"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="• Add Mood: Use the bottom sheet to add your mood for the day.
-• Monthly Analysis: The calendar on the Mood page shows your mood for each day. Tap on a day to see details. The chart below shows a summary of your moods over the current month." />
+            android:text="@string/add_mood_use_the_bottom_sheet_to_add_your_mood_for_the_day_monthly_analysis_the_calendar_on_the_mood_page_shows_your_mood_for_each_day_tap_on_a_day_to_see_details_the_chart_below_shows_a_summary_of_your_moods_over_the_current_month" />
 
         <!-- Hydration Section -->
         <TextView
@@ -59,22 +57,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Hydration"
+            android:text="@string/hydration_"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="• Set Glass Size: Go to the Hydration tab and tap on the settings icon to set your preferred glass size.
-• Set Hours &amp; Reminder: In the same settings menu, you can define your drinking hours and enable reminders to stay hydrated throughout the day." />
+            android:text="@string/set_glass_size_go_to_the_hydration_tab_and_tap_on_the_settings_icon_to_set_your_preferred_glass_size_set_hours_amp_reminder_in_the_same_settings_menu_you_can_define_your_drinking_hours_and_enable_reminders_to_stay_hydrated_throughout_the_day" />
 
         <Button
             android:id="@+id/btn_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Close" />
+            android:text="@string/close" />
 
     </LinearLayout>
 </ScrollView>

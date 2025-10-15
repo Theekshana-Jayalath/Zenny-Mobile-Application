@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select emoji"
+        android:text="@string/select_emoji_"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -32,7 +32,7 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:backgroundTint="#FFFFFF"
-            android:text="😀" />
+            android:text="@string/happy" />
 
         <Button
             android:id="@+id/btnEmoji2"
@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:layout_marginEnd="4dp"
             android:backgroundTint="#FFFFFF"
-            android:text="😞" />
+            android:text="@string/sad" />
 
         <!-- Emoji Button 3 -->
         <Button
@@ -51,7 +51,7 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:backgroundTint="#FFFFFF"
-            android:text="😐" />
+            android:text="@string/confused" />
 
         <!-- Emoji Button 4 -->
         <Button
@@ -61,7 +61,7 @@
             android:layout_weight="1"
             android:layout_marginEnd="4dp"
             android:backgroundTint="#FFFFFF"
-            android:text="😭" />
+            android:text="@string/cry" />
 
         <!-- Emoji Button 5 (last one, no marginEnd needed) -->
         <Button
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#FFFFFF"
-            android:text="😡" />
+            android:text="@string/angry" />
 
     </LinearLayout>
 
@@ -78,7 +78,7 @@
         android:id="@+id/editNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Note (optional)"
+        android:hint="@string/note_optional"
         android:inputType="textMultiLine"
         android:minLines="2"
         android:layout_marginTop="8dp" />
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
         android:backgroundTint="#7C3C81"
-        android:text="Save"
+        android:text="@string/save"
         android:textColor="@android:color/white"
         android:textColorLink="@color/design_default_color_background" />
 
